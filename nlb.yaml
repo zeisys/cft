@@ -1,0 +1,99 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: YAML file to create the Network Load Balancer (NLB), Target Group, and Listener in the DEV account
+Parameters:
+  Department:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Project:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Env:
+    Default: <ENTER CORRECT VALUE>
+    Type: String
+  VPCId:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Subnet1:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Subnet2:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Subnet3:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  TargetIP:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  TargetPortNumber:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  TargetAZ:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Project:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  NameSuffix:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  EnableCrossZoneLoadBalancing:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+Resources:
+  NetworkLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: !Sub '${Department}-${Project}-${Env}-${NameSuffix}'
+      Scheme: internal
+      Subnets:
+      - !Ref Subnet1
+      - !Ref Subnet2
+      - !Ref Subnet3
+      Type: network
+      Tags:
+        - Key: Department
+          Value: !Ref Department
+        - Key: Project
+          Value: !Ref Project
+
+  NetworkLoadBalancerTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Name: !Sub '${Department}-${Project}-${Env}-${NameSuffix}'
+      VpcId: !Ref VPCId      
+      Port: 80
+      Protocol: TCP
+      TargetType: ip
+      IpAddressType: ipv4
+      HealthCheckEnabled: True
+      HealthCheckIntervalSeconds: 10
+      HealthCheckPort: !Ref TargetPortNumber
+      HealthCheckProtocol: TCP
+      HealthCheckTimeoutSeconds: 10
+      HealthyThresholdCount: 3
+      TargetGroupAttributes:
+      - Key: deregistration_delay.timeout_seconds
+        Value: 60
+      - Key: load_balancing.cross_zone.enabled
+        Value: !Ref EnableCrossZoneLoadBalancing
+      Targets:
+      - Id: !Ref TargetIP
+        Port: !Ref TargetPortNumber
+        AvailabilityZone: !Ref TargetAZ
+      Tags:
+        - Key: Department
+          Value: !Ref Department
+        - Key: Project
+          Value: !Ref Project
+  NetworkLoadBalancerListener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+      - Type: forward
+        TargetGroupArn:
+          Ref: NetworkLoadBalancerTargetGroup
+      LoadBalancerArn:
+        Ref: NetworkLoadBalancer
+      Port: 80
+      Protocol: TCP

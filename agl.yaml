@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: YAML file to create a VPC Link in the DEV account
+Parameters:
+  Department: 
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Project:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Env:
+    Type: String
+    Default: d
+  NetworkLoadBalancerArn:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  NameSuffix:
+    Type: String  
+Resources:
+  VpcLink:
+    Type: AWS::ApiGateway::VpcLink
+    Properties:
+      Name: !Sub '${Department}-${Project}-${Env}-${NameSuffix}'
+      TargetArns:
+        - !Ref NetworkLoadBalancerArn
+      Tags:
+        - Key: Department
+          Value: !Ref Department
+        - Key: Project
+          Value: !Ref Project      

@@ -1,0 +1,18 @@
+[
+  {
+    "ParameterKey": "Project",
+    "ParameterValue": "ABC"
+  },
+  {
+    "ParameterKey": "Department",
+    "ParameterValue": "123"
+  },
+  {
+    "ParameterKey": "NameSuffix",
+    "ParameterValue": "AGW"
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "DEV"
+  }
+]

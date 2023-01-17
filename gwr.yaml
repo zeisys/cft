@@ -1,0 +1,122 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: YAML file to create a Gateway Resource, Proxy Resource, Method, Proxy Method and Deployment in the DEV account
+Parameters:
+  Department:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Project:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Env:
+    Type: String
+    Default: d
+  ApiGatewayId:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  IntegrationType:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  ConnectionId:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  ConnectionType:
+    Type: String
+    Default: <ENTER CORRECT VALUE>   
+  ParentPathResourceId:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  PathPart:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  EndpointPathPart:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  LoadBalancerUrl:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  ApiKeyRequired:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  TraceHeaderId:
+    Type: String
+    Default: <ENTER CORRECT VALUE>    
+  Authorization:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  ContentType:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+Resources:
+  Resource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref ApiGatewayId
+      ParentId: !Ref ParentPathResourceId
+      PathPart: !Ref PathPart
+  ProxyResource:
+    Type: 'AWS::ApiGateway::Resource'
+    Properties:
+      RestApiId: !Ref ApiGatewayId
+      ParentId: !Ref Resource
+      PathPart: '{proxy+}' 
+  Deployment:
+    Type: 'AWS::ApiGateway::Deployment'
+    Properties:
+      RestApiId: !Ref ApiGatewayId
+      StageName: v0
+    DependsOn:
+      - Method
+      - ProxyMethod
+  Method:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      ApiKeyRequired: !Ref ApiKeyRequired
+      HttpMethod: ANY
+      RequestParameters:
+        method.request.header.x-amtrak-trace-id: false
+      Integration:
+        ConnectionType: !Ref ConnectionType
+        ConnectionId: !Ref ConnectionId
+        Type: !Ref IntegrationType
+        Uri: !Sub '${LoadBalancerUrl}${EndpointPathPart}'
+        IntegrationHttpMethod: ANY
+        IntegrationResponses:
+          - StatusCode: 200
+        RequestParameters:
+          integration.request.header.Content-Type: !Sub "'${ContentType}'"
+          integration.request.header.Authorization: !Sub "'${Authorization}'"
+          integration.request.header.x-amtrak-trace-id: '''method.request.header.x-amtrak-trace-id'''
+      ResourceId: !Ref Resource
+      RestApiId: !Ref ApiGatewayId
+      MethodResponses:
+        - StatusCode: 200
+  ProxyMethod:
+    Type: 'AWS::ApiGateway::Method'
+    Properties:
+      AuthorizationType: NONE
+      ApiKeyRequired: !Ref ApiKeyRequired
+      HttpMethod: ANY
+      RequestParameters:
+        method.request.header.x-amtrak-trace-id: false
+        method.request.path.proxy: true
+      Integration:
+        ConnectionType: !Ref ConnectionType
+        ConnectionId: !Ref ConnectionId
+        Type: !Ref IntegrationType
+        Uri: !Sub '${LoadBalancerUrl}${EndpointPathPart}/{proxy}'
+        PassthroughBehavior: WHEN_NO_MATCH
+        IntegrationHttpMethod: ANY
+        IntegrationResponses:
+          - StatusCode: 200
+        CacheKeyParameters:
+          - 'method.request.path.proxy'
+        RequestParameters:
+          integration.request.path.proxy: 'method.request.path.proxy'
+          integration.request.header.Content-Type: !Sub "'${ContentType}'"
+          integration.request.header.Authorization: !Sub "'${Authorization}'"
+          integration.request.header.x-amtrak-trace-id: '''method.request.header.x-amtrak-trace-id'''
+      ResourceId: !Ref ProxyResource
+      RestApiId: !Ref ApiGatewayId
+      MethodResponses:
+        - StatusCode: 200

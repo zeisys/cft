@@ -1,0 +1,39 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: YAML file to create an API Gateway (REST API) in the DEV account
+Parameters:
+  Department: 
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Project:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  Env:
+    Type: String
+    Default: <ENTER CORRECT VALUE>
+  NameSuffix:
+    Type: String 
+    Default: <ENTER CORRECT VALUE>
+Resources:
+  Api:
+    Type: 'AWS::ApiGateway::RestApi'
+    Properties:
+      Name: !Sub '${Department}-${Project}-${Env}-${NameSuffix}'
+      Description: API demo
+      EndpointConfiguration:
+        Types:
+          - REGIONAL      
+      Tags:
+        - Key: Department
+          Value: !Ref Department
+        - Key: Project
+          Value: !Ref Project      
+Outputs:
+  RootUrl:
+    Description: Root URL of the API gateway
+    Value: !Join 
+      - ''
+      - - 'https://'
+        - !Ref Api
+        - .execute-api.
+        - !Ref 'AWS::Region'
+        - .amazonaws.com

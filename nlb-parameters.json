@@ -1,0 +1,50 @@
+[
+  {
+    "ParameterKey": "Project",
+    "ParameterValue": "ABC"
+  },
+  {
+    "ParameterKey": "Department",
+    "ParameterValue": "123"
+  },
+  {
+    "ParameterKey": "NameSuffix",
+    "ParameterValue": "NLB"
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "DEV"
+  },
+  {
+    "ParameterKey": "VPCId",
+    "ParameterValue": "Enter the VPC ID in this format vpc-1a2b3c4d5f6g7h8i9"
+  },
+  {
+    "ParameterKey": "Subnet1",
+    "ParameterValue": "Enter the first subnet ID in this format subnet-1a2b3c4d5f6g7h8i9"
+  },
+  {
+    "ParameterKey": "Subnet2",
+    "ParameterValue": "Enter the second subnet ID in this format subnet-1a2b3c4d5f6g7h8i9"
+  },
+  {
+    "ParameterKey": "Subnet3",
+    "ParameterValue": "Enter the third subnet ID in this format subnet-1a2b3c4d5f6g7h8i9"
+  },
+  {
+    "ParameterKey": "TargetIP",
+    "ParameterValue": "192.168.1.1"
+  },
+  {
+    "ParameterKey": "TargetPortNumber",
+    "ParameterValue": "80"
+  },
+  {
+    "ParameterKey": "TargetAZ",
+    "ParameterValue": "all"
+  },
+  {
+    "ParameterKey": "EnableCrossZoneLoadBalancing",
+    "ParameterValue": "true"
+  }
+]

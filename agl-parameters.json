@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "Project",
+    "ParameterValue": "ABC"
+  },
+  {
+    "ParameterKey": "Department",
+    "ParameterValue": "123"
+  },
+  {
+    "ParameterKey": "NameSuffix",
+    "ParameterValue": "AGL"
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "DEV"
+  },
+  {
+    "ParameterKey": "NetworkLoadBalancerArn",
+    "ParameterValue": "arn:aws:elasticloadbalancing:..."
+  }
+]

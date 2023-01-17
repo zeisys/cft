@@ -1,0 +1,62 @@
+[
+  {
+    "ParameterKey": "ConnectionType",
+    "ParameterValue": "VPC_LINK"
+  },
+  {
+    "ParameterKey": "ContentType",
+    "ParameterValue": "application/json"
+  },
+  {
+    "ParameterKey": "TraceHeaderId",
+    "ParameterValue": "x-zeisys-trace-id"
+  },
+  {
+    "ParameterKey": "LoadBalancerUrl",
+    "ParameterValue": "Enter the URL of the load balancer in the following format http://xyz..."
+  },
+  {
+    "ParameterKey": "Env",
+    "ParameterValue": "DEV"
+  },
+  {
+    "ParameterKey": "Authorization",
+    "ParameterValue": "Basic"
+  },
+  {
+    "ParameterKey": "Project",
+    "ParameterValue": "ABC"
+  },
+  {
+    "ParameterKey": "Department",
+    "ParameterValue": "123"
+  },
+  {
+    "ParameterKey": "ConnectionId",
+    "ParameterValue": "zeisys"
+  },
+  {
+    "ParameterKey": "EndpointPathPart",
+    "ParameterValue": "/zeisys"
+  },
+  {
+    "ParameterKey": "PathPart",
+    "ParameterValue": "zeisys"
+  },
+  {
+    "ParameterKey": "ParentPathResourceId",
+    "ParameterValue": "Enter the parent under which this resource will be added. The parent resource is usually a 10 character alphanumeric value like abcdefghij"
+  },
+  {
+    "ParameterKey": "ApiGatewayId",
+    "ParameterValue": "Enter the physical ID of the API Gateway. This is usually a 10 character alphanumeric value like abcdefghij"
+  },
+  {
+    "ParameterKey": "ApiKeyRequired",
+    "ParameterValue": "false"
+  },
+  {
+    "ParameterKey": "IntegrationType",
+    "ParameterValue": "HTTP_PROXY"
+  }
+]
